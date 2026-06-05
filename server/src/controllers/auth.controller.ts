@@ -15,7 +15,6 @@ export const signUp = async (
   try {
     //create a new user
     const { name, email, password } = req.body;
-    console.log(req.body);
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -56,7 +55,36 @@ export const signIn = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {};
+) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      const error: CustomError = new Error("user not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    const isPasswordvalid = await bcrypt.compare(password, user.password);
+    if (!isPasswordvalid) {
+      const error: CustomError = new Error("Password is invalid");
+      error.statusCode = 401;
+      throw error;
+    }
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN as SignOptions["expiresIn"],
+    });
+    res.status(201).json({
+      success: true,
+      message: "User loggedin successfully",
+      data: {
+        token,
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const signOut = async (
   req: Request,
