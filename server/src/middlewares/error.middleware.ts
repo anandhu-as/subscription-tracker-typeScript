@@ -1,16 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-//Error - name,message,stack
-interface CustomError extends Error {
-  statusCode?: number;
-  code?: number;
-  errors?: any;
-}
+import { CustomError } from "../types/types.js";
+
 
 const errorMiddleware = (
   err: CustomError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   let error: CustomError = { ...err };
 
