@@ -65,7 +65,7 @@ const subscriptionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 //fn to autoCalculate renewal date
-subscriptionSchema.pre("save", function (next) {
+subscriptionSchema.pre("save", function () {
   if (!this.renewalDate) {
     const renewalPeriods = {
       daily: 1,
@@ -73,13 +73,18 @@ subscriptionSchema.pre("save", function (next) {
       monthly: 30,
       yearly: 365,
     };
-    this.renewalDate = new Date(this.startDate); //renewal data have the start date
+
+    this.renewalDate = new Date(this.startDate);
+
     this.renewalDate.setDate(
       this.renewalDate.getDate() + renewalPeriods[this.frequency!],
     );
   }
+
+  this.status = this.renewalDate < new Date() ? "expired" : "active";
 });
 //start date-05-06-2026
 //renewalDate=05-06-2026
 //renewalPeriod=monthly 30
 //05-06-2026 + 30 = 35 = 05-07-2026
+export default subscriptionSchema;
