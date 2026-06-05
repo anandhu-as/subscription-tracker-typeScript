@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-
+//Error - name,message,stack
 interface CustomError extends Error {
   statusCode?: number;
   code?: number;
