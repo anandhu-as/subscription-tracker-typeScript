@@ -90,4 +90,9 @@ export const signOut = async (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {};
+) => {
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+};
