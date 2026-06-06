@@ -33,3 +33,23 @@ export const getUser = async (
     next(error);
   }
 };
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      const error: CustomError = new Error("user not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    return res.status(200).json({
+      success: true,
+      message: "user deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -18,4 +18,4 @@ if (!rawJwtExpiresIn) {
 }
 
 export const JWT_SECRET: string = rawJwtSecret;
-export const JWT_EXPIRES_IN: string = rawJwtExpiresIn; // Explicitly typed as string
+export const JWT_EXPIRES_IN: string = rawJwtExpiresIn; 
