@@ -10,7 +10,7 @@ interface DecodedToken extends JwtPayload {
 declare global {
   namespace Express {
     interface Request {
-      user?: any; 
+      user?: any;
     }
   }
 }
@@ -18,12 +18,11 @@ declare global {
 export const authorize = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     let token: string | undefined;
 
-  
     const authHeader = req.headers.authorization;
 
     if (authHeader && authHeader.startsWith("Bearer ")) {
