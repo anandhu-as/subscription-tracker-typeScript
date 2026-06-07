@@ -4,3 +4,7 @@ export interface CustomError extends Error {
   code?: number;
   errors?: any;
 }
+
+export type ReminderPayload = {
+  subscriptionId: string;
+};
