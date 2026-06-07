@@ -24,7 +24,7 @@ const subscriptionSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["sports", "news", "lifestyle", "entertainment", "technology"],
+        enum: ["sports", "news", "lifestyle", "Entertainment", "technology"],
     },
     paymentMethod: {
         type: String,
@@ -78,4 +78,5 @@ subscriptionSchema.pre("save", function () {
 //renewalDate=05-06-2026
 //renewalPeriod=monthly 30
 //05-06-2026 + 30 = 35 = 05-07-2026
-export default subscriptionSchema;
+const Subscription = mongoose.model("Subscription", subscriptionSchema);
+export default Subscription;
