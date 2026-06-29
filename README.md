@@ -145,7 +145,6 @@ Arcjet rules are defined in the server config and can be tuned per route. When a
   "status": 429,
   "message": "Too many requests. Please try again later."
 }
-```
- 
+``
 
  
