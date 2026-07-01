@@ -1,4 +1,4 @@
-# Subscription Tracker API
+## Subscription Tracker API
  
 A secure, production-ready REST API for managing and tracking user subscriptions — built with TypeScript, JWT authentication, Arcjet rate limiting, and Upstash caching.
  
