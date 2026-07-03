@@ -1,45 +1,34 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../types/types.js";
 
+export const errorMiddleware = (err: any, request: Request, response: Response, next: NextFunction) => {
+  try {
+    let error: any = { ...err };
+    error.message = err.message;
+    console.error(err);
 
-const errorMiddleware = (
-  err: CustomError,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  let error: CustomError = { ...err };
+    if (err.name === "CastError") {
+      const message = "Resource not found";
+      error = new Error(message);
+      error.statusCode = 404;
+    }
 
-  error.message = err.message;
+    if (err.code === 11000) {
+      const message = "Duplicate field value entered";
+      error = new Error(message);
+      error.statusCode = 400;
+    }
 
-  console.log(err);
+    if (err.name === "ValidationError") {
+      const message = Object.values(err.errors).map((val: any) => val.message);
+      error = new Error(message.join(", "));
+      error.statusCode = 400;
+    }
 
-  // Mongoose CastError
-  if (err.name === "CastError") {
-    error = new Error("Resource not found") as CustomError;
-    error.statusCode = 404;
+    response.status(error.statusCode || 500).json({
+      success: false,
+      error: error.message || "Server Error",
+    });
+  } catch (error) {
+    next(error);
   }
-
-  // Duplicate key error
-  if (err.code === 11000) {
-    error = new Error("Duplicate value entered") as CustomError;
-    error.statusCode = 400;
-  }
-
-  // Validation error
-  if (err.name === "ValidationError") {
-    const message = Object.values(err.errors || {})
-      .map((val: any) => val.message)
-      .join(", ");
-
-    error = new Error(message) as CustomError;
-    error.statusCode = 400;
-  }
-
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || "Server Error",
-  });
 };
-
-export default errorMiddleware;

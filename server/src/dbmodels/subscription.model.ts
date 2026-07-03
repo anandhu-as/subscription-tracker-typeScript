@@ -1,0 +1,104 @@
+import mongoose, { Document, Schema, Types } from "mongoose";
+
+export interface ISubscription extends Document {
+  name: string;
+  price: number;
+  currency: string;
+  frequency: string;
+  category: string;
+  paymentMethod: string;
+  status: string;
+  startDate: Date;
+  renewalDate: Date;
+  user: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+const subscriptionSchema = new Schema<ISubscription>(
+  {
+    name: {
+      type: String,
+      required: [true, "subscriptionName is required broo!!"],
+      trim: true,
+      minLength: 2,
+      maxLength: 100,
+    },
+    price: {
+      type: Number,
+      required: [true, "price is required"],
+      min: [0, "price must be greater than 0"],
+    },
+    currency: {
+      type: String,
+      enum: ["INR", "EUR", "USD"],
+      default: "INR",
+    },
+    frequency: {
+      type: String,
+      enum: ["daily", "weekly", "monthly", "yearly"],
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ["sports", "news", "lifestyle", "Entertainment", "technology"],
+    },
+    paymentMethod: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    status: {
+      type: String,
+      enum: ["active", "cancelled", "expired"],
+      default: "active",
+    },
+    startDate: {
+      type: Date,
+      required: true,
+      validate: {
+        validator: (value: any) => value <= new Date(),
+        message: "Start date must be in the past",
+      },
+    },
+    renewalDate: {
+      type: Date,
+      validate: {
+        validator: function (this: any, value: any) {
+          return value >= this.startDate;
+        },
+        message: "Renewal date must be after the start date",
+      },
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+  },
+  { timestamps: true },
+);
+
+subscriptionSchema.pre<ISubscription>("save", function (next: any) {
+  if (!this.renewalDate) {
+    const renewalPeriods: { [key: string]: number } = {
+      daily: 1,
+      weekly: 7,
+      monthly: 30,
+      yearly: 365,
+    };
+
+    this.renewalDate = new Date(this.startDate);
+
+    this.renewalDate.setDate(
+      this.renewalDate.getDate() + renewalPeriods[this.frequency || "monthly"],
+    );
+  }
+
+  this.status = this.renewalDate < new Date() ? "expired" : "active";
+  next();
+});
+
+const Subscription = mongoose.model<ISubscription>("Subscription", subscriptionSchema);
+export default Subscription;

@@ -1,61 +1,46 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/user.model.js";
-import { NextFunction, Request, Response } from "express";
-import { JWT_SECRET } from "../config/env.js";
+import { JWT_SECRET } from "../config/env";
+import jwt from "jsonwebtoken";
+import User, { IUser } from "../dbmodels/user.model";
+import { Request, Response, NextFunction } from "express";
 
-interface DecodedToken extends JwtPayload {
-  userId: string;
+export interface AuthRequest extends Request {
+  user?: IUser;
 }
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any;
-    }
-  }
-}
-
-export const authorize = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const authorize = async (request: AuthRequest, response: Response, next: NextFunction) => {
   try {
-    let token: string | undefined;
+    let token;
 
-    const authHeader = req.headers.authorization;
-
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-      token = authHeader.split(" ")[1];
+    if (
+      request.headers.authorization &&
+      request.headers.authorization.startsWith("Bearer")
+    ) {
+      token = request.headers.authorization.split(" ")[1];
     }
 
     if (!token) {
-      return res.status(401).json({
-        message: "Unauthorized: No token provided",
+      return response.status(401).json({
+        message: "Unauthorized",
       });
     }
 
-    // Verify token
-    const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
+    const decoded = jwt.verify(token, JWT_SECRET!) as { userId: string };
 
     const user = await User.findById(decoded.userId);
 
     if (!user) {
-      return res.status(401).json({
+      return response.status(401).json({
         message: "Unauthorized: User not found",
       });
     }
 
-    req.user = user;
+    request.user = user;
 
     next();
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-
-    return res.status(401).json({
+  } catch (error: any) {
+    return response.status(401).json({
       message: "Unauthorized",
-      error: message,
+      error: error.message,
     });
   }
 };
-export default authorize;
