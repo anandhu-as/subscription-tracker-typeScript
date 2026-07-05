@@ -2,7 +2,7 @@
  
 A secure, production-ready REST API for managing and tracking user subscriptions — built with TypeScript, JWT authentication, Arcjet rate limiting, and Upstash caching.
  
----x
+
  
 ## Tech Stack
  
