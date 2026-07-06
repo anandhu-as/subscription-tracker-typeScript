@@ -1,7 +1,8 @@
 import { Router, Request, Response } from "express";
+import { authorize } from "../middlewares/auth.middleware";
+import { createSubscription } from "../controllers/subscription.controller";
 
 export const subscriptionRouter = Router();
 
-subscriptionRouter.get("/", (request: Request, response: Response) => {
-  response.json({ message: "hello there SUBSCRIPTION GET " });
-});
+
+subscriptionRouter.post("/", authorize,createSubscription);

@@ -80,7 +80,7 @@ const subscriptionSchema = new Schema<ISubscription>(
   { timestamps: true },
 );
 
-subscriptionSchema.pre<ISubscription>("save", function (next: any) {
+subscriptionSchema.pre<ISubscription>("save", function () {
   if (!this.renewalDate) {
     const renewalPeriods: { [key: string]: number } = {
       daily: 1,
@@ -97,7 +97,6 @@ subscriptionSchema.pre<ISubscription>("save", function (next: any) {
   }
 
   this.status = this.renewalDate < new Date() ? "expired" : "active";
-  next();
 });
 
 const Subscription = mongoose.model<ISubscription>("Subscription", subscriptionSchema);
