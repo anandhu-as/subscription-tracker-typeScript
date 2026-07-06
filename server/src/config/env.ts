@@ -4,8 +4,7 @@ config({ path: `.env.${process.env.NODE_ENV || "development"}.local` });
 export const PORT = process.env.PORT;
 export const NODE_ENV=process.env.NODE_ENV
 export const DB_URI = process.env.DB_URI;
-//export const SERVER_URL = process.env.SERVER_URL;
-//arcjet
+
 export const ARCJET_ENV = process.env.ARCJET_ENV;
 export const ARCJET_KEY = process.env.ARCJET_KEY;
 
