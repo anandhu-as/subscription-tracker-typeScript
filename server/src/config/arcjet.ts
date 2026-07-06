@@ -1,7 +1,7 @@
 import arcjet, { detectBot, shield, tokenBucket } from "@arcjet/node";
 import { ARCJET_KEY } from "./env";
 
-const aj = arcjet({
+export const aj = arcjet({
   // Get your site key from https://app.arcjet.com and set it as an environment
   // variable rather than hard coding.
   key: ARCJET_KEY!,

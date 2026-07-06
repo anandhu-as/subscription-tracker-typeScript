@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node dist/app.js",
-    "dev": "tsx watch src/app.ts",
+    "dev": "nodemon --exec tsx src/app.ts",
     "build": "tsc"
   },
   "dependencies": {
