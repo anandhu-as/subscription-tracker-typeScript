@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import { PORT } from "./config/env";
 import { authRouter } from "./routes/auth";
 import { userRouter } from "./routes/user";
@@ -7,24 +7,19 @@ import connectToDatabase from "./db/mongodb";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import arcjetMiddleware from "./middlewares/arcjet.middleware";
 import workflowRouter from "./routes/workflow.routes";
-
-
 const app = express();
 app.use(express.json());
 app.use(arcjetMiddleware);
-
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscription", subscriptionRouter);
-app.use('/api/v1/workflows', workflowRouter);
+app.use(workflowRouter);
 app.use(errorMiddleware);
 app.listen(PORT, () => {
-  console.log(`SubAPI is running on port ${PORT}`);
-  connectToDatabase();
+    console.log(`SubAPI is running on port ${PORT}`);
+    connectToDatabase();
 });
-
-app.get("/", (request: Request, response: Response) => {
-  response.send("Hello fellasss welcome to SubAPI");
+app.get("/", (request, response) => {
+    response.send("Hello fellasss welcome to SubAPI");
 });
-
 export { app };
