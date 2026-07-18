@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { aj } from "../config/arcjet";
 
- const arcjetMiddleware = async (
+const arcjetMiddleware = async (
   request: Request,
   response: Response,
   next: NextFunction,
@@ -35,4 +35,4 @@ import { aj } from "../config/arcjet";
     next(error);
   }
 };
-export default arcjetMiddleware
+export default arcjetMiddleware;
