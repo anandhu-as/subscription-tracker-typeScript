@@ -61,7 +61,11 @@ subscription-tracker-typeScript/
    ```
 
 4. Set up environment variables:
-   Ensure your `.env.development.local` file contains the necessary keys (MongoDB URI, JWT Secret, Upstash Keys, Arcjet Key, etc.).
+   Copy the provided `.env.example` file to create your local environment file:
+   ```bash
+   cp .env.example .env.development.local
+   ```
+   Then, open `.env.development.local` and fill in your actual credentials (MongoDB URI, JWT Secret, Upstash Keys, Arcjet Key, etc.).
 
 5. Start the development server:
    ```bash
