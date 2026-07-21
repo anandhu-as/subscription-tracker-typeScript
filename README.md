@@ -1,8 +1,8 @@
-# 📈 Subscription Tracker API
+#  Subscription Tracker API
 
 A production-ready RESTful API for tracking personal subscriptions and automating renewal reminders. Built with Express.js, TypeScript, and MongoDB — with automated email workflows powered by Upstash QStash and Nodemailer.
 
-## ✨ Features
+##  Features
 
 - **JWT Authentication** — Secure user registration and login.
 - **Subscription Management** — Add, view, update, and delete subscriptions.
@@ -12,7 +12,7 @@ A production-ready RESTful API for tracking personal subscriptions and automatin
 - **Clean Architecture** — Controllers, routes, middlewares, models, and utilities neatly separated.
 - **Environment-aware** — Separate configurations for development and production.
 
-## 📂 Folder Structure
+##  Folder Structure
 
 ```text
 subscription-tracker-typeScript/
@@ -34,7 +34,7 @@ subscription-tracker-typeScript/
 └── README.md
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
