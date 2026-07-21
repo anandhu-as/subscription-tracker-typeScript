@@ -47,7 +47,7 @@ subscription-tracker-typeScript/
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/anandhu-as/subscription-tracker-typeScript.git
    ```
 
 2. Navigate to the server directory:
@@ -72,7 +72,7 @@ subscription-tracker-typeScript/
    npm run dev
    ```
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Node.js** & **Express.js**
 - **TypeScript**
@@ -83,4 +83,4 @@ subscription-tracker-typeScript/
 
 ---
 
-**Note:** When creating a subscription, don't forget to include the specific time if you want the reminders to work immediately. Otherwise, the workflow is designed to only trigger 24 hours before the renewal date.
+**Note:** When creating a subscription, don't forget to include the specific time if you want the reminders to work immediately. Otherwise, the workflow is designed to only trigger 24 hours before the renewal date!!!🙂
