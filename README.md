@@ -80,3 +80,7 @@ subscription-tracker-typeScript/
 - **Upstash QStash**
 - **Arcjet**
 - **Nodemailer**
+
+---
+
+**Note:** When creating a subscription, don't forget to include the specific time if you want the reminders to work immediately. Otherwise, the workflow is designed to only trigger 24 hours before the renewal date.
